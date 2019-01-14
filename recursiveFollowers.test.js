@@ -25,6 +25,12 @@ beforeAll(() => {
             return [{"login": "ed"}];
         } else if(username === "dan"){
             return [{"login": "carl"}, {"login": "ben"}];
+        } else if(username === "user1") {
+            return [{"login": "user2"}];
+        } else if(username === "user2") {
+            return [{"login": "user1"}];
+        } else if(username === "user3") {
+            return [{"login": "user1"}];
         } else {
             return [];
         }
@@ -60,4 +66,11 @@ test('works recursively', async () => {
         {"login": "carl", "followers": [{"login": "ed", "followers": []}]},
         {"login": "ben", "followers": []}
     ].sort(loginSort));
+})
+
+test('Eliminate follower loop', async () => {
+    const data = await recursiveFollowers('user3');
+    expect(data.followers).toEqual([
+        {"followers": [{"followers": [], "login": "user2"}], "login": "user1"}
+    ]);
 })
