@@ -1,12 +1,16 @@
 findFollowers = require('./findFollowers');
 
-recursiveFollowers = async function(username) {
-    followerList = await findFollowers(username);
-    foundUsers = 0;
-    shortList = [];
-    while(foundUsers < 3 && followerList.length != 0) {
+recursiveFollowers = async function(username, depth = 3) {
+    let followerList = await findFollowers(username);
+    let foundUsers = 0;
+    let shortList = [];
+    let userFollowers = [];
+    while(foundUsers < 3 && followerList.length > 0) {
         user = followerList.pop();
-        shortList.push(user);
+        if(depth > 0) {
+            userFollowers = await recursiveFollowers(user.login, depth - 1);
+        }
+        shortList = shortList.concat([userFollowers]);
         foundUsers += 1;
     }
     result = {

@@ -23,6 +23,8 @@ beforeAll(() => {
             return [{"login": "ed"}, {"login": "frank"}, {"login": "graham"}, {"login": "harry"}];
         } else if(username === "carl") {
             return [{"login": "ed"}];
+        } else if(username === "dan"){
+            return [{"login": "carl"}, {"login": "ben"}];
         } else {
             return [];
         }
@@ -32,7 +34,11 @@ beforeAll(() => {
 test('works one level deep', async () => {
     const data = await recursiveFollowers('abe');
     expect(data.login).toEqual("abe");
-    expect(data.followers.sort(loginSort)).toEqual([{"login": "bill"}, {"login": "chris"}, {"login": "dave"}].sort(loginSort))
+    expect(data.followers.sort(loginSort)).toEqual([
+        {"login": "bill", "followers": []}, 
+        {"login": "chris", "followers": []}, 
+        {"login": "dave", "followers": []}
+    ].sort(loginSort))
 });
 
 test('returns only 3 followers', async () => {
@@ -44,5 +50,14 @@ test('returns only 3 followers', async () => {
 test('works for less than 3 followers', async () => {
     const data = await recursiveFollowers('carl');
     expect(data.login).toEqual("carl");
-    expect(data.followers).toEqual([{"login": "ed"}]);
+    expect(data.followers).toEqual([{"login": "ed", "followers": []}]);
+})
+
+test('works recursively', async () => {
+    const data = await recursiveFollowers('dan');
+    expect(data.login).toEqual("dan");
+    expect(data.followers.sort(loginSort)).toEqual([
+        {"login": "carl", "followers": [{"login": "ed", "followers": []}]},
+        {"login": "ben", "followers": []}
+    ].sort(loginSort));
 })
