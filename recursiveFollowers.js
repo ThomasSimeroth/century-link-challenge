@@ -2,7 +2,7 @@ findFollowers = require('./findFollowers');
 
 recursiveFollowers = async function(username, depth = 3) {
     if(depth <= 0)  {
-        return {login: username, followers: shortList};
+        return {login: username, followers: []};
     }
     let followerList = await findFollowers(username);
     let foundUsers = 0;
