@@ -1,4 +1,4 @@
-const findFollowers = require('./main');
+const findFollowers = require('./findFollowers');
 const request = require('request-promise');
 
 jest.mock('request');

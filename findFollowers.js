@@ -1,4 +1,4 @@
-let request = require('request-promise')
+const request = require('request-promise')
 
 findFollowers = async function(username) {
     uri = 'https://api.github.com/users/' + username + '/followers'
