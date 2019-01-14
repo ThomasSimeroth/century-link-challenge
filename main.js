@@ -1,14 +1,15 @@
 let request = require('request-promise')
-var options = {
-    uri: 'https://api.github.com/users/octocat/followers',
-    headers: {
-        'User-Agent': 'Thomas-Simeroth'
-    },
-    json: true
-};
 
-findFollowers = async function() {
+findFollowers = async function(username) {
+    uri = 'https://api.github.com/users/' + username + '/followers'
+    const options = {
+        uri: uri,
+        headers: {
+            'User-Agent': 'Thomas-Simeroth'
+        },
+        json: true
+    };
     response = await request(options);
-    return response;
+    return response[0];
 }
 module.exports = findFollowers;

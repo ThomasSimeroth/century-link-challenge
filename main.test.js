@@ -14,6 +14,6 @@ beforeAll(() => {
 });
 
 test('example test', async () => {
-    const data = await findFollowers();
+    const data = await findFollowers('octocat');
     expect(data).toEqual({"login": "bob"});
 });
