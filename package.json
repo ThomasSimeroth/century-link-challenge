@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "test": "jest"
+    },
+    "dependencies": {
+        "jest": "^23.6.0",
+        "request-promise": "^4.2.2"
+    }
+}
