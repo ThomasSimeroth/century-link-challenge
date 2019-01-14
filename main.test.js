@@ -1,6 +1,19 @@
 const findFollowers = require('./main');
+const request = require('request-promise');
+
+jest.mock('request');
+
+beforeAll(() => {
+    request.mockImplementation((options) => {
+        if(options.uri === 'https://api.github.com/users/octocat/followers') {
+            return [{"login": "bob"}]
+        } else {
+            return [{"login": "chris"}]
+        }
+    });
+});
 
 test('example test', async () => {
     const data = await findFollowers();
-    expect(data).toBe(true);
-})
+    expect(data).toEqual({"login": "bob"});
+});
